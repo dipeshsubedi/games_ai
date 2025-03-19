@@ -1,5 +1,6 @@
 import pygame as pg
 import time
+import itertools
 
 pg.init()
 
@@ -24,6 +25,23 @@ point_pos = (h // 2, w // 2)  # Initial food position
 
 running = True
 paused = False  # Pause flag
+
+def find_farthest_point(snake, grid_w, grid_h):
+    """Find the farthest point from the snake's head."""
+    head = snake[0]
+    max_distance = -1
+    best_position = None
+
+    for row, col in itertools.product(range(grid_h), range(grid_w)):
+        if (row, col) in snake:
+            continue  # Skip positions occupied by the snake
+        
+        distance = abs(head[0] - row) + abs(head[1] - col)  # Manhattan distance
+        if distance > max_distance:
+            max_distance = distance
+            best_position = (row, col)
+
+    return best_position
 
 while running:
     for event in pg.event.get():
@@ -64,6 +82,7 @@ while running:
 
         if snake[0] == point_pos:
             snake.append(point_pos)
+            point_pos = find_farthest_point(snake, w, h)  # Move apple farthest away
 
     screen.fill((0, 0, 0))
 
