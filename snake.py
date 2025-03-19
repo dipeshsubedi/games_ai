@@ -3,23 +3,27 @@ import time
 
 pg.init()
 
-w= 12
-h= 8
-L = 50
-pad =5
-toppad = 30
+# Game settings
+w = 12  # Grid width
+h = 8   # Grid height
+L = 50  # Cell size
+pad = 5  # Padding
+toppad = 30  # Top padding
 
+# Initialize screen
 screen = pg.display.set_mode((w * L, h * L + toppad))
 
+# Font settings
 default_font = pg.font.get_default_font()
 font = pg.font.SysFont(default_font, 30)
 
-snake = [(h, 0)] 
+# Snake setup
+snake = [(h, 0)]  # Initial snake position
 direction = "up"
-point_pos = (h // 2, w // 2)  
+point_pos = (h // 2, w // 2)  # Initial food position
 
 running = True
-paused = False  
+paused = False  # Pause flag
 
 while running:
     for event in pg.event.get():
@@ -42,6 +46,7 @@ while running:
 
     if not paused:
         head_row, head_col = snake[0]
+
         if direction == "up":
             new_head = (head_row - 1, head_col)
         elif direction == "right":
@@ -51,32 +56,31 @@ while running:
         elif direction == "left":
             new_head = (head_row, head_col - 1)
 
+        # Teleport through walls
+        new_head = (new_head[0] % h, new_head[1] % w)
+
         snake.insert(0, new_head)
         snake.pop()
 
-        # Check if the snake eats the food
         if snake[0] == point_pos:
             snake.append(point_pos)
 
-    # Draw game board
-    screen.fill((0, 0, 0))  
+    screen.fill((0, 0, 0))
+
     for col in range(w):
         for row in range(h):
             pg.draw.rect(screen, (50, 50, 50), pg.Rect(col * L + pad, row * L + pad + toppad, L - pad, L - pad))
 
-    # Draw snake
     for s in snake:
         row, col = s
         pg.draw.rect(screen, (200, 200, 200), pg.Rect(col * L + pad, row * L + pad + toppad, L - pad, L - pad))
 
-    # Draw food
     pg.draw.rect(screen, (200, 20, 20), pg.Rect(point_pos[1] * L + pad, point_pos[0] * L + pad + toppad, L - pad, L - pad))
 
-    # Display text
     text = font.render('Snake' if not paused else 'Paused', True, (220, 220, 220))
     screen.blit(text, (5, 5))
 
     pg.display.flip()
-    time.sleep(0.2)  # Game speed
+    time.sleep(0.2)
 
 pg.quit()
