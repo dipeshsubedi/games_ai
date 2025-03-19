@@ -77,6 +77,12 @@ while running:
         # Teleport through walls
         new_head = (new_head[0] % h, new_head[1] % w)
 
+        # Check if the snake collides with itself or the walls
+        if new_head in snake:
+            running = False  # Snake collides with itself, game over
+        elif new_head[0] < 0 or new_head[0] >= h or new_head[1] < 0 or new_head[1] >= w:
+            running = False  # Snake collides with wall, game over
+
         snake.insert(0, new_head)
         snake.pop()
 
