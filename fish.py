@@ -6,7 +6,7 @@ import math
 #Exercise 2 Change constants
 WIDTH, HEIGHT = 512, 512
 #Exercise 1 Change the constant NUM_FISH
-NUM_FISH = 5
+NUM_FISH = 50 # Number of fish was more 50 in number after changing the value 
 MAX_SPEED = 2
 NEIGHBOR_RADIUS = 50
 SEPARATION_RADIUS = 30

@@ -4,27 +4,23 @@ import itertools
 
 pg.init()
 
-# Game settings
-w = 12  # Grid width
-h = 8   # Grid height
-L = 50  # Cell size
-pad = 5  # Padding
-toppad = 30  # Top padding
+w = 12  
+h = 8   
+L = 50  
+pad = 5  
+toppad = 30  
 
-# Initialize screen
 screen = pg.display.set_mode((w * L, h * L + toppad))
 
-# Font settings
 default_font = pg.font.get_default_font()
 font = pg.font.SysFont(default_font, 30)
 
-# Snake setup
-snake = [(h, 0)]  # Initial snake position
+snake = [(h, 0)]  
 direction = "up"
-point_pos = (h // 2, w // 2)  # Initial food position
+point_pos = (h // 2, w // 2)  
 
 running = True
-paused = False  # Pause flag
+paused = False  
 
 def find_farthest_point(snake, grid_w, grid_h):
     """Find the farthest point from the snake's head."""
@@ -36,7 +32,7 @@ def find_farthest_point(snake, grid_w, grid_h):
         if (row, col) in snake:
             continue  # Skip positions occupied by the snake
         
-        distance = abs(head[0] - row) + abs(head[1] - col)  # Manhattan distance
+        distance = abs(head[0] - row) + abs(head[1] - col)  
         if distance > max_distance:
             max_distance = distance
             best_position = (row, col)
