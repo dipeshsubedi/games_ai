@@ -16,12 +16,20 @@ SCREEN_CENTER = (WIDTH // 2, HEIGHT // 2)
 BG_COLOR = (15, 10, 15)
 FISH_COLOR = (255, 100, 200)
 
+# New constant for trail effect
+TRAIL_ALPHA = 20  # How fast the fish trail fades
+
 class Fish:
     def __init__(self, x, y, vx, vy):
         self.x = x
         self.y = y
         self.vx = vx
         self.vy = vy
+        self.color = self.random_color()  # Start with a random color
+        self.trail = []  # Store positions for trail effect
+    
+    def random_color(self):
+        return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))  # Random RGB color
 
     def update(self, flock):
         # Rule 1: Separation (Boid rule1 :avoids crowding its neighbors, which helps prevent collisions)
@@ -34,6 +42,10 @@ class Fish:
         # Update velocity
         self.vx += separation[0] * SEPARATION_FORCE + alignment[0] * ALIGNMENT_FORCE + cohesion[0] * COHESION_FORCE
         self.vy += separation[1] * SEPARATION_FORCE + alignment[1] * ALIGNMENT_FORCE + cohesion[1] * COHESION_FORCE
+
+        # Add some random fluctuation to make the movement more natural
+        self.vx += random.uniform(-0.2, 0.2)
+        self.vy += random.uniform(-0.2, 0.2)
 
         # Limit speed
         speed = math.sqrt(self.vx ** 2 + self.vy ** 2)
@@ -56,12 +68,21 @@ class Fish:
         elif self.y > HEIGHT:
             self.y = 0
 
+        # Store positions for trail (to leave a trail behind the fish)
+        self.trail.append((self.x, self.y))
+        if len(self.trail) > 10:  # Keep the trail length limited
+            self.trail.pop(0)
+
+        # Randomly change the fish color over time
+        if random.random() < 0.01:
+            self.color = self.random_color()
+
     def separate(self, flock):
         separation_vector = [0, 0]
         for other_fish in flock:
             if other_fish != self:
                 distance = math.sqrt((self.x - other_fish.x) ** 2 + (self.y - other_fish.y) ** 2)
-                if distance == 0: # To avoid division by zero
+                if distance == 0:  # To avoid division by zero
                     distance = 0.001
                 if distance < SEPARATION_RADIUS:
                     separation_vector[0] += (self.x - other_fish.x) / distance
@@ -111,9 +132,17 @@ class Fish:
     def draw(self, screen):
         # Draw fish as an arrow shape
         angle = math.atan2(self.vy, self.vx)
-        pygame.draw.polygon(screen, FISH_COLOR, [(self.x + math.cos(angle) * 10, self.y + math.sin(angle) * 10),
+        pygame.draw.polygon(screen, self.color, [(self.x + math.cos(angle) * 10, self.y + math.sin(angle) * 10),
                                                   (self.x + math.cos(angle + 5 * math.pi / 6) * 10, self.y + math.sin(angle + 5 * math.pi / 6) * 10),
                                                   (self.x + math.cos(angle - 5 * math.pi / 6) * 10, self.y + math.sin(angle - 5 * math.pi / 6) * 10)])
+
+        # Draw trail with fading effect
+        for i in range(len(self.trail) - 1):
+            x1, y1 = self.trail[i]
+            x2, y2 = self.trail[i + 1]
+            alpha = int(255 * (1 - i / len(self.trail)))  # Fade effect
+            color_with_alpha = (*self.color, alpha)
+            pygame.draw.line(screen, color_with_alpha, (x1, y1), (x2, y2), 2)
 
 def main():
     pygame.init()
