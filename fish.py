@@ -2,8 +2,8 @@ import pygame
 import random
 import math
 
-#Constants
-#Exercise 2 Change constants
+# Constants
+# Exercise 2 Change constants
 WIDTH, HEIGHT = 512, 512
 NUM_FISH = 50  # Changing this increases/decreases the number of fish in the simulation
 MAX_SPEED = 10  # Changing this affects  the fish movement
@@ -15,7 +15,6 @@ COHESION_FORCE = 0.05  # Increasing this makes fish stay closer together
 SCREEN_CENTER = (WIDTH // 2, HEIGHT // 2)
 BG_COLOR = (15, 10, 15)
 FISH_COLOR = (255, 100, 200)
-
 
 class Fish:
     def __init__(self, x, y, vx, vy):
@@ -46,11 +45,17 @@ class Fish:
         # Update position
         self.x += self.vx
         self.y += self.vy
-        
-        #Exercise 3
+
         # Wrap around screen
-        
-        
+        if self.x < 0:
+            self.x = WIDTH
+        elif self.x > WIDTH:
+            self.x = 0
+        if self.y < 0:
+            self.y = HEIGHT
+        elif self.y > HEIGHT:
+            self.y = 0
+
     def separate(self, flock):
         separation_vector = [0, 0]
         for other_fish in flock:
@@ -62,12 +67,12 @@ class Fish:
                     separation_vector[0] += (self.x - other_fish.x) / distance
                     separation_vector[1] += (self.y - other_fish.y) / distance
         return separation_vector
-    
+
     def align(self, flock):
         avg_velocity = [0, 0]
-        #Exercise 4
+        # Exercise 4
         return avg_velocity
-      
+
     def cohere(self, flock):
         center_of_mass = [0, 0]
         num_neighbors = 0
