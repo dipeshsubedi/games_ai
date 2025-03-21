@@ -24,11 +24,11 @@ class Fish:
         self.vy = vy
 
     def update(self, flock):
-        # Rule 1: Separation
+        # Rule 1: Separation (Boid rule1 :avoids crowding its neighbors, which helps prevent collisions)
         separation = self.separate(flock)
-        # Rule 2: Alignment
+        # Rule 2: Alignment(Boid rule 2 : align their direction and speed with the average direction and speed of their neighbors)
         alignment = self.align(flock)
-        # Rule 3: Cohesion
+        # Rule 3: Cohesion(Biod rule 3 : move towards the center of mass of their neighbors, helping the group stay together )
         cohesion = self.cohere(flock)
 
         # Update velocity
@@ -70,8 +70,26 @@ class Fish:
 
     def align(self, flock):
         avg_velocity = [0, 0]
-        # Exercise 4
-        return avg_velocity
+        num_neighbors = 0
+
+        # Loop through all the fish in the flock
+        for other_fish in flock:
+            if other_fish != self:
+                distance = math.sqrt((self.x - other_fish.x) ** 2 + (self.y - other_fish.y) ** 2)
+                if distance < NEIGHBOR_RADIUS:  # If within neighborhood radius
+                    avg_velocity[0] += other_fish.vx  # Add the velocity in x-direction
+                    avg_velocity[1] += other_fish.vy  # Add the velocity in y-direction
+                    num_neighbors += 1
+
+        if num_neighbors > 0:
+            avg_velocity[0] /= num_neighbors  # Calculate average velocity in x-direction
+            avg_velocity[1] /= num_neighbors  # Calculate average velocity in y-direction
+            
+            # Return the difference between the fish's velocity and the average velocity of the neighbors
+            return [avg_velocity[0] - self.vx, avg_velocity[1] - self.vy]
+        else:
+            # If no neighbors are within the radius, return a zero vector
+            return [0, 0]
 
     def cohere(self, flock):
         center_of_mass = [0, 0]
