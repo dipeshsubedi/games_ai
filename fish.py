@@ -5,17 +5,17 @@ import math
 #Constants
 #Exercise 2 Change constants
 WIDTH, HEIGHT = 512, 512
-#Exercise 1 Change the constant NUM_FISH
-NUM_FISH = 50 # Number of fish was more 50 in number after changing the value 
-MAX_SPEED = 2
-NEIGHBOR_RADIUS = 50
-SEPARATION_RADIUS = 30
-SEPARATION_FORCE = 0.8
-ALIGNMENT_FORCE = 0.1
-COHESION_FORCE = 0.05
+NUM_FISH = 50  # Changing this increases/decreases the number of fish in the simulation
+MAX_SPEED = 10  # Changing this affects  the fish movement
+NEIGHBOR_RADIUS = 100  # Increasing this makes fish more closer
+SEPARATION_RADIUS = 30  # Decreasing this makes fish stay closer , increasing it spreads them out
+SEPARATION_FORCE = 0.8  # Higher values make fish avoid each other more aggressively
+ALIGNMENT_FORCE = 0.1  # Higher values make fish match their speed
+COHESION_FORCE = 0.05  # Increasing this makes fish stay closer together 
 SCREEN_CENTER = (WIDTH // 2, HEIGHT // 2)
 BG_COLOR = (15, 10, 15)
 FISH_COLOR = (255, 100, 200)
+
 
 class Fish:
     def __init__(self, x, y, vx, vy):
@@ -49,6 +49,7 @@ class Fish:
         
         #Exercise 3
         # Wrap around screen
+        
         
     def separate(self, flock):
         separation_vector = [0, 0]
