@@ -82,8 +82,11 @@ g.add_edge(2, 1, 2)  # C - B, weight 2
 g.add_edge(1, 5, 2)  # B - F, weight 2
 g.add_edge(6, 5, 5)  # G - F, weight 5
 
-# Dijkstra's algorithm from D to all vertices
-print("Dijkstra's Algorithm starting from vertex D:\n")
-distances = g.dijkstra('D')
-for i, d in enumerate(distances):
-    print(f"Shortest distance from D to {g.vertex_data[i]}: {d}")
+# Start Dijkstra's algorithm from vertex 'D' and show the results
+print("Dijkstra's Algorithm starting from vertex D:\n")  # Print a message before showing distances
+
+distances = g.dijkstra('D')  # Run Dijkstra’s algorithm starting from 'D' to find shortest paths
+
+# Go through each vertex and display the shortest distance from 'D'
+for i, d in enumerate(distances):  
+    print(f"Shortest distance from D to {g.vertex_data[i]}: {d}")  # Show the result in a readable format
