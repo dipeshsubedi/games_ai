@@ -93,10 +93,16 @@ class Vertex:
 #     x2, y2 = p2
 #     #return 0 #Dijkstra
 #     return abs(y2-y1) #Vertical
+# def h(p1, p2):
+#     x1, y1 = p1
+#     x2, y2 = p2
+#     return abs(x2 - x1)  # Horizontal distance
+
 def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
-    return abs(x2 - x1)  # Horizontal distance
+    return abs(x2 - x1) + abs(y2 - y1)  # Manhattan distance
+
 
 
 
