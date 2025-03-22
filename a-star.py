@@ -93,22 +93,41 @@ class Vertex:
 #     x2, y2 = p2
 #     #return 0 #Dijkstra
 #     return abs(y2-y1) #Vertical
+#This function calculates the distance between two points, 
+# but only looks at the vertical (y) direction.
+
+
 # def h(p1, p2):
 #     x1, y1 = p1
 #     x2, y2 = p2
 #     return abs(x2 - x1)  # Horizontal distance
+#This function calculates the distance between two points, 
+# but only looks at the horizontal (x) direction
 
 # import math
 
 # def h(p1, p2):
 #     x1, y1 = p1
 #     x2, y2 = p2
+#     return abs(x2 - x1) + abs(y2 - y1)  # Manhattan distance
+#This function calculates the total distance by 
+#adding both the horizontal and vertical distances
+
+
+# def h(p1, p2):
+#     x1, y1 = p1
+#     x2, y2 = p2
 #     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)  # Euclidean distance
+#This function calculates the straight-line (diagonal) distance between two points, l
+# ike measuring the shortest path between two locations
+
 
 def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
     return max(abs(x2 - x1), abs(y2 - y1))  # Chebyshev distance
+#This function calculates the distance by finding the maximum difference 
+# between the horizontal or vertical direction
 
 
 
