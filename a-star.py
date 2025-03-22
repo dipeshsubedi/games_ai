@@ -88,11 +88,16 @@ class Vertex:
         return False
     
 
-def h(p1,p2): # heuristic method (manhattan method or vertical distance)
+# def h(p1,p2): # heuristic method (vertical distance)
+#     x1, y1 = p1
+#     x2, y2 = p2
+#     #return 0 #Dijkstra
+#     return abs(y2-y1) #Vertical
+def h(p1, p2):
     x1, y1 = p1
     x2, y2 = p2
-    #return 0 #Dijkstra
-    return abs(y2-y1) #Vertical
+    return abs(x2 - x1)  # Horizontal distance
+
 
 
 def reconstruct_path(came_from, current, draw):
