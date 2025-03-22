@@ -122,12 +122,17 @@ class Vertex:
 # ike measuring the shortest path between two locations
 
 
-def h(p1, p2):
-    x1, y1 = p1
-    x2, y2 = p2
-    return max(abs(x2 - x1), abs(y2 - y1))  # Chebyshev distance
+# def h(p1, p2):
+#     x1, y1 = p1
+#     x2, y2 = p2
+#     return max(abs(x2 - x1), abs(y2 - y1))  # Chebyshev distance
 #This function calculates the distance by finding the maximum difference 
 # between the horizontal or vertical direction
+def h(p1, p2):
+    # Always return a very large number to make the heuristic effectively useless
+    return float("inf")  # This will make A* behave just like Dijkstra
+
+
 
 
 
